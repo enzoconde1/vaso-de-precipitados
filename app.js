@@ -54,8 +54,6 @@ function formatMl(value) {
   return value.toFixed(ML_PER_DROP < 0.1 ? 2 : 1);
 }
 
-// prueba
-
 function updateStats() {
   dropCountEl.textContent = drops;
   mlCountEl.textContent = formatMl(ml);
