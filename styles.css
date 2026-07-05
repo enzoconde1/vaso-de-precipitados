@@ -1,0 +1,340 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --accent: #1a4480;
+  --accent-light: #1565c0;
+  --accent-soft: #42a5f5;
+  --text: #1a1a1a;
+  --text-muted: #555;
+  --panel-w: min(300px, 32vw);
+  --stage-bg: #e8ecf0;
+  --panel-bg: #eef2f6;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: "Segoe UI", system-ui, sans-serif;
+  color: var(--text);
+  touch-action: manipulation;
+}
+
+body {
+  height: 100dvh;
+  background: var(--panel-bg);
+  cursor: none;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr var(--panel-w);
+  height: 100dvh;
+}
+
+.stage {
+  min-width: 0;
+  min-height: 0;
+  background: var(--stage-bg);
+  border-right: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.stage canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+  padding: clamp(1rem, 2.5vh, 1.75rem) 1rem;
+  background: var(--panel-bg);
+}
+
+.controls {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: clamp(0.75rem, 1.8vh, 1rem);
+  min-height: 0;
+  padding: clamp(0.5rem, 2vh, 1.25rem) 0;
+}
+
+.stat-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1 1 0;
+  min-height: 0;
+  gap: clamp(0.35rem, 1.2vh, 0.55rem);
+  padding: clamp(0.65rem, 1.5vh, 1rem) 0.75rem;
+  background: #fff;
+  border-radius: 14px;
+  border: 1px solid rgba(21, 101, 192, 0.12);
+  box-shadow: 0 3px 14px rgba(21, 101, 192, 0.08);
+  text-align: center;
+}
+
+.stat-label {
+  width: 100%;
+  font-size: clamp(1.15rem, 2.8vh, 1.5rem);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+  text-align: center;
+}
+
+.stat-value {
+  width: 100%;
+  font-size: clamp(3.25rem, 11vh, 5.25rem);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--accent);
+  line-height: 1;
+  text-align: center;
+}
+
+.stat-unit {
+  width: 100%;
+  font-size: clamp(1rem, 2.2vh, 1.2rem);
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.error-banner {
+  position: fixed;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 420px;
+  padding: 0.85rem 1rem;
+  background: #fff3e0;
+  border: 1px solid #ffb74d;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  color: #5d4037;
+  z-index: 20;
+  text-align: center;
+}
+
+.error-banner code {
+  display: block;
+  margin-top: 0.35rem;
+  padding: 0.3rem;
+  background: rgba(0, 0, 0, 0.06);
+  border-radius: 4px;
+  font-size: 0.82rem;
+}
+
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr auto;
+  }
+
+  .stage {
+    border-right: none;
+  }
+
+  .panel {
+    padding: 1rem;
+    justify-content: stretch;
+  }
+
+  .controls {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: stretch;
+    height: auto;
+    padding: 0;
+  }
+
+  .stat-card {
+    flex: 1;
+    min-width: 120px;
+    min-height: 120px;
+  }
+
+  .stat-value {
+    font-size: clamp(2.5rem, 10vw, 3.5rem);
+  }
+}
+
+.focus-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(0.65rem, 1.5vw, 1.25rem);
+  cursor: none;
+}
+
+.focus-modal[hidden] {
+  display: none;
+}
+
+.focus-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(12, 18, 28, 0.72);
+  backdrop-filter: blur(6px);
+}
+
+.focus-modal__dialog {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+  width: min(1280px, 94vw);
+  height: min(900px, 92dvh);
+  max-height: 92dvh;
+  padding: clamp(1.25rem, 2.2vw, 1.75rem);
+  background: linear-gradient(165deg, #f8fbff 0%, #eef4fb 55%, #e8f0fa 100%);
+  border-radius: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow:
+    0 28px 90px rgba(13, 71, 161, 0.22),
+    0 0 0 1px rgba(21, 101, 192, 0.06);
+}
+
+.focus-modal__title {
+  font-family: "Cormorant Garamond", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+  font-size: clamp(2rem, 4.8vw, 3.1rem);
+  font-weight: 600;
+  font-style: italic;
+  line-height: 1.1;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  background: linear-gradient(120deg, #0d47a1 0%, var(--accent-light) 52%, var(--accent-soft) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 2px 18px rgba(21, 101, 192, 0.18));
+}
+
+.focus-modal__title::after {
+  content: "";
+  display: block;
+  width: min(220px, 42%);
+  height: 3px;
+  margin: 0.65rem auto 0;
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent, var(--accent-light), var(--accent-soft), transparent);
+  opacity: 0.85;
+}
+
+.focus-modal__body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  align-items: stretch;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.focus-modal__preview {
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid rgba(21, 101, 192, 0.1);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.55);
+}
+
+.focus-modal__preview canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.focus-modal__aside {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
+}
+
+.focus-modal__controls {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  gap: clamp(0.75rem, 1.8vh, 1rem);
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  padding: clamp(0.5rem, 2vh, 1.25rem) 0;
+}
+
+.focus-modal__controls .stat-card {
+  flex: 1 1 0;
+  min-height: 0;
+  justify-content: center;
+  padding: clamp(0.75rem, 2vh, 1.25rem) 0.75rem;
+  gap: clamp(0.4rem, 1.5vh, 0.65rem);
+  text-align: center;
+}
+
+.focus-modal__controls .stat-label {
+  font-size: clamp(1.2rem, 3vh, 1.6rem);
+  letter-spacing: 0.11em;
+}
+
+.focus-modal__controls .stat-value {
+  font-size: clamp(3.5rem, 12vh, 6rem);
+  line-height: 1;
+}
+
+.focus-modal__controls .stat-unit {
+  font-size: clamp(1.05rem, 2.4vh, 1.35rem);
+}
+
+@media (max-width: 760px) {
+  .focus-modal__dialog {
+    height: auto;
+    max-height: 92dvh;
+  }
+
+  .focus-modal__body {
+    grid-template-columns: 1fr;
+    flex: 0 1 auto;
+  }
+
+  .focus-modal__preview {
+    min-height: min(42dvh, 360px);
+  }
+
+  .focus-modal__controls {
+    flex-direction: row;
+    flex-wrap: wrap;
+    height: auto;
+  }
+
+  .focus-modal__controls .stat-card {
+    flex: 1;
+    min-width: 120px;
+  }
+}

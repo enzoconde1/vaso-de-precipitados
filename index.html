@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vaso</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "/node_modules/three/build/three.module.js",
+          "three/addons/": "/node_modules/three/examples/jsm/",
+          "gsap": "/node_modules/gsap/index.js"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <div class="layout">
+      <main class="stage">
+        <canvas id="canvas" aria-label="Simulación 3D"></canvas>
+      </main>
+
+      <aside class="panel">
+        <section class="controls">
+          <div class="stat-card">
+            <span class="stat-label">Gotas</span>
+            <span class="stat-value" id="drop-count">0</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">Mililitros</span>
+            <span class="stat-value" id="ml-count">0.0</span>
+            <span class="stat-unit">mL</span>
+          </div>
+        </section>
+      </aside>
+    </div>
+
+    <div id="error-banner" class="error-banner" hidden>
+      No se pudo cargar la escena. Ejecutá <code>npx serve .</code> y abrí
+      <code>http://localhost:3000</code>
+    </div>
+
+    <div id="focus-modal" class="focus-modal" hidden aria-hidden="true">
+      <div class="focus-modal__backdrop"></div>
+      <div class="focus-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="focus-modal-title">
+        <h2 id="focus-modal-title" class="focus-modal__title">El color de la memoria</h2>
+        <div class="focus-modal__body">
+          <div class="focus-modal__preview">
+            <canvas id="canvas-2d" aria-label="Vista 2D"></canvas>
+          </div>
+          <aside class="focus-modal__aside">
+            <section class="focus-modal__controls controls">
+              <div class="stat-card">
+                <span class="stat-label">Gotas</span>
+                <span class="stat-value" id="focus-modal-drops">0</span>
+              </div>
+              <div class="stat-card">
+                <span class="stat-label">Mililitros</span>
+                <span class="stat-value" id="focus-modal-ml">0.0</span>
+                <span class="stat-unit">mL</span>
+              </div>
+            </section>
+          </aside>
+        </div>
+      </div>
+    </div>
+
+    <script type="module">
+      import('./app.js').catch((error) => {
+        console.error(error);
+        document.getElementById('error-banner').hidden = false;
+      });
+    </script>
+  </body>
+</html>
