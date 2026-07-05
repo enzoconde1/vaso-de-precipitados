@@ -1,6 +1,6 @@
 import { createPrototypeA } from './prototypes/prototype-a.js';
 import { createPrototypeB } from './prototypes/prototype-b.js';
-import { DROP_INTERVAL_MS, ML_PER_DROP, MAX_ML } from './shared/config.js';
+import { DROP_INTERVAL_MS, MAX_ML, ML_PER_DROP } from './shared/config.js';
 
 const FIRST_DROP_DELAY = 800;
 const MAX_DROPS = MAX_ML / ML_PER_DROP;
@@ -53,6 +53,8 @@ function expectedDropCount(at = nowEffective()) {
 function formatMl(value) {
   return value.toFixed(ML_PER_DROP < 0.1 ? 2 : 1);
 }
+
+// prueba
 
 function updateStats() {
   dropCountEl.textContent = drops;
